@@ -1,21 +1,54 @@
 import random
-zahlen = list(range(0, 45))
-statistik = {zahl: 0 for zahl in range(45)}
+upper_bound = 45
+draws = 1000
 
-for a in range(1000):
-    gezogene_zahlen = []
+numbers = list(range(upper_bound))
+statistics = {zahl: 0 for zahl in range(upper_bound + 1)}
+
+for _ in range(draws):
+    winner_numbers = []
     i = 0
     while i < 6:
-        random_number = random.randint(0, len(zahlen) - 1)
-        gezogene_zahl = zahlen[random_number]
+        random_number = random.randint(0, len(numbers) - 1)
+        drawn_number = numbers[random_number]
+        drawn_number += 1
 
-        if gezogene_zahl not in gezogene_zahlen:
-            gezogene_zahlen.append(gezogene_zahl)
-            statistik[gezogene_zahl] += 1
+        if drawn_number not in winner_numbers:
+            winner_numbers.append(drawn_number)
+            statistics[drawn_number] += 1
             i += 1
 
-for numbers, amount in statistik.items():
-    print(f"{numbers} wurde {amount} mal gezogen.")
+for number, amount in statistics.items():
+    print(f"{number} wurde {amount} mal gezogen.")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+# while i < 6:
+#         random_number = random.randint(0, len(zahlen) - 1)
+#         number_to_change = zahlen[random_number]
+#
+#         if i == 0:
+#             last_number = zahlen[len(zahlen) - 1]
+#         else:
+#             last_number = zahlen[len(zahlen) - 1 - i]
+#
+#         zahlen[last_number] = number_to_change + 1
+#         zahlen[random_number] = last_number
+#
+#         gezogene_zahlen.append(zahlen[last_number])
+#
+#         if zahlen[last_number] in gezogene_zahlen:
+#             statistik[zahlen[last_number]] += 1
+#         i = i + 1
