@@ -1,3 +1,4 @@
+from collections import Counter
 from random import random
 
 # wahrscheinlichkeit: paar 42,26%
@@ -39,28 +40,28 @@ def ziehe_fuenf_karten():
     return gezogene_zahlen
 
 def erkenne_kombinationen(hand):
+    werte_counter = Counter(hand)
 
-    paar = 2 in hand
-    drilling = 3 in hand
-    zwei_paar = hand.count(2) == 2
+    paar = list(werte_counter.values()).count(2) == 1
+    zwei_paar = list(werte_counter.values()).count(2) == 2
+    drilling = list(werte_counter.values()).count(3) == 1
 
-    werte_sortiert = sorted(hand)
-    strasse = all([werte_sortiert[i] - werte_sortiert[i - 1] == 1 for i in range(1, 5)])
-    full_house = drilling and paar
-    flush = 5 in hand
+    werte_sortiert = sorted(set(hand))
+    strasse = len(werte_sortiert) == 5 and (werte_sortiert[-1] - werte_sortiert[0] == 4)
+
+    flush = False
     straight_flush = strasse and flush
-    royal_flush = straight_flush and []
+    royal_flush = strasse and min(werte_sortiert) == 8
+    full_house = drilling and paar
 
-    if full_house:
-        return "Full House"
-    elif flush:
-        return "Flush"
-    elif strasse:
-        return "Straße"
-    elif royal_flush:
+    if royal_flush:
         return "Royal Flush"
     elif straight_flush:
         return "Straight Flush"
+    elif full_house:
+        return "Full House"
+    elif strasse:
+        return "Straße"
     elif drilling:
         return "Drilling"
     elif zwei_paar:
