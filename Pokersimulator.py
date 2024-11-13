@@ -1,5 +1,6 @@
 from collections import Counter
 from random import random
+import random
 
 # wahrscheinlichkeit: paar 42,26%
 # wahrscheinlichkeit: zwei paar 4,75%
@@ -9,24 +10,6 @@ from random import random
 # wahrscheinlichkeit: full house 0,144%
 # wahrscheinlichkeit: straight flush 0,00139%
 # wahrscheinlichkeit: royal flush 0,000154%
-
-karten = 52
-spiele_anzahl = 100000
-
-zahlen = [i for i in range(0, karten)]
-gezogene_zahlen = []
-import random
-
-wahrscheinlichkeiten_statistik = {
-    "Paar": 0,
-    "Zwei Paar": 0,
-    "Drilling": 0,
-    "Straße": 0,
-    "Flush": 0,
-    "Full House": 0,
-    "Straight Flush": 0,
-    "Royal Flush": 0
-}
 
 def ziehe_fuenf_karten():
     gezogene_zahlen = []
@@ -48,11 +31,11 @@ def erkenne_kombinationen(hand):
 
     werte_sortiert = sorted(set(hand))
     strasse = len(werte_sortiert) == 5 and (werte_sortiert[-1] - werte_sortiert[0] == 4)
+    full_house = drilling and paar
 
-    flush = False
+    flush = [karte // 13 for karte in hand] == 1
     straight_flush = strasse and flush
     royal_flush = strasse and min(werte_sortiert) == 8
-    full_house = drilling and paar
 
     if royal_flush:
         return "Royal Flush"
@@ -78,10 +61,26 @@ def spiele_poker_simulation(spiele_anzahl):
         if kombination is not None:
             wahrscheinlichkeiten_statistik[kombination] += 1
 
+if __name__ == '__main__':
+    karten = 52
+    spiele_anzahl = 100000
 
-spiele_poker_simulation(spiele_anzahl)
+    zahlen = [i for i in range(0, karten)]
+    gezogene_zahlen = []
 
-print(f"Ergebnisse nach {spiele_anzahl} Spielen:")
-for kombination, anzahl in wahrscheinlichkeiten_statistik.items():
-    prozent = (anzahl / spiele_anzahl) * 100
-    print(f"{kombination}: {anzahl} Mal ({prozent:.4f}%)")
+    wahrscheinlichkeiten_statistik = {
+        "Paar": 0,
+        "Zwei Paar": 0,
+        "Drilling": 0,
+        "Straße": 0,
+        "Flush": 0,
+        "Full House": 0,
+        "Straight Flush": 0,
+        "Royal Flush": 0
+    }
+
+    spiele_poker_simulation(spiele_anzahl)
+    print(f"Ergebnisse nach {spiele_anzahl} Spielen:")
+    for kombination, anzahl in wahrscheinlichkeiten_statistik.items():
+        prozent = (anzahl / spiele_anzahl) * 100
+        print(f"{kombination}: {anzahl} Mal ({prozent:.4f}%)")
