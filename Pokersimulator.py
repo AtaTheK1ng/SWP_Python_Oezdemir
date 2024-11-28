@@ -1,5 +1,5 @@
 import random
-from collections import Counter
+import Unittest_Poker
 
 
 def ziehe_fuenf_karten(karten):
@@ -17,11 +17,8 @@ def ziehe_fuenf_karten(karten):
 
 
 def erkenne_kombinationen(hand, modulo_basis=13):
-    # Werte und Farben der Karten bestimmen
     werte = [karte % modulo_basis for karte in hand]
-    farben = [karte // modulo_basis for karte in hand]
 
-    # Zähler für die Werte
     werte_counter = {}
     for wert in werte:
         if wert in werte_counter:
@@ -29,33 +26,22 @@ def erkenne_kombinationen(hand, modulo_basis=13):
         else:
             werte_counter[wert] = 1
 
-    # Prüfe auf Kombinationen
     paar = any(count == 2 for count in werte_counter.values())
     zwei_paar = sum(1 for count in werte_counter.values() if count == 2) == 2
     drilling = any(count == 3 for count in werte_counter.values())
-    vierling = any(count == 4 for count in werte_counter.values())
 
-    # Straße erkennen
     werte_sortiert = sorted(set(werte))
     strasse = len(werte_sortiert) == 5 and (werte_sortiert[-1] - werte_sortiert[0] == 4)
+    flush = sorted(werte) == list(range(min(werte), min(werte) + 5))
 
-    # Flush erkennen (alle Karten gleiche Farbe)
-    flush = len(set(farben)) == 1
-
-    # Straight Flush und Royal Flush
     straight_flush = strasse and flush
     royal_flush = straight_flush and min(werte_sortiert) == 8
-
-    # Full House (Drilling + Paar)
     full_house = drilling and paar
 
-    # Rückgabe der höchsten Kombination
     if royal_flush:
         return "Royal Flush"
     elif straight_flush:
         return "Straight Flush"
-    elif vierling:
-        return "Vierling"
     elif full_house:
         return "Full House"
     elif flush:
@@ -71,8 +57,6 @@ def erkenne_kombinationen(hand, modulo_basis=13):
     else:
         return None
 
-
-
 def spiele_poker_simulation(spiele_anzahl, kartenzahl=52, modulo_basis=13):
     zahlen = list(range(kartenzahl))
     wahrscheinlichkeiten_statistik = {
@@ -82,7 +66,6 @@ def spiele_poker_simulation(spiele_anzahl, kartenzahl=52, modulo_basis=13):
         "Straße": 0,
         "Flush": 0,
         "Full House": 0,
-        "Vierling": 0,
         "Straight Flush": 0,
         "Royal Flush": 0
     }
@@ -108,29 +91,6 @@ def main():
         prozent = (anzahl / spiele_anzahl) * 100
         print(f"{kombination}: {anzahl} Mal ({prozent:.2f}%)")
 
-
-# Unit Tests
-def test_ziehe_fuenf_karten():
-    karten = list(range(52))
-    hand = ziehe_fuenf_karten(karten)
-    assert len(hand) == 5
-    assert len(set(hand)) == 5  # Keine Duplikate
-
-
-def test_erkenne_kombinationen():
-    assert erkenne_kombinationen([0, 1, 2, 3, 4]) == "Straße"
-    assert erkenne_kombinationen([0, 13, 26, 39, 1]) == "Paar"
-    assert erkenne_kombinationen([0, 1, 2, 13, 26]) == None
-
-
-def test_spiele_poker_simulation():
-    statistik = spiele_poker_simulation(10)
-    assert sum(statistik.values()) == 10
-
-
 if __name__ == "__main__":
     main()
-    test_ziehe_fuenf_karten()
-    test_erkenne_kombinationen()
-    test_spiele_poker_simulation()
-    print("Alle Tests erfolgreich.")
+    Unittest_Poker.main()
