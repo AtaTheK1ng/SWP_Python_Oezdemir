@@ -1,4 +1,5 @@
 import Pokersimulator
+
 def test_erkenne_kombinationen():
     test_cases = [
         ([0, 1, 2, 2, 3], "Paar"),                # Ein Paar
