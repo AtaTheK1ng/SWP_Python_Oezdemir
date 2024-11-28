@@ -3,24 +3,36 @@ upper_bound = 45
 draws = 1000
 
 numbers = list(range(upper_bound))
+number = [i*i for i in range(upper_bound)]
 statistics = {zahl: 0 for zahl in range(upper_bound + 1)}
+set_numbers = set(numbers)
 
-for _ in range(draws):
-    winner_numbers = []
-    i = 0
-    while i < 6:
-        random_number = random.randint(0, len(numbers) - 1)
-        drawn_number = numbers[random_number]
-        drawn_number += 1
+numbers[0] = 1000
+b = number[0]
 
-        if drawn_number not in winner_numbers:
-            winner_numbers.append(drawn_number)
-            statistics[drawn_number] += 1
-            i += 1
+# for _ in range(draws):
+#     winner_numbers = []
+#     i = 0
+#     while i < 6:
+#         random_number = random.randint(0, len(numbers) - 1)
+#         drawn_number = numbers[random_number]
+#         drawn_number += 1
+#
+#         if drawn_number not in winner_numbers:
+#             winner_numbers.append(drawn_number)
+#             statistics[drawn_number] += 1
+#             i += 1
 
-for number, amount in statistics.items():
-    print(f"{number} wurde {amount} mal gezogen.")
+# for number, amount in statistics.items():
+    #print(f"{number} wurde {amount} mal gezogen.")
 
+print(statistics)
+print(numbers)
+print(number)
+print(set_numbers)
+
+print(numbers[0])
+print(b)
 
 
 
