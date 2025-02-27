@@ -46,6 +46,5 @@ def main():
 
     schueler.lernen()
 
-
 if __name__ == "__main__":
     main()
