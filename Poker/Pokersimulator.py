@@ -1,7 +1,20 @@
 import random
 import Unittest_Poker
 
+import time
 
+# Zeitmesser-Decorator
+def zeitmesser(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()  # Startzeit
+        result = func(*args, **kwargs)
+        end_time = time.time()  # Endzeit
+        ausfuehrungszeit = end_time - start_time
+        print(f"Die Funktion {func.__name__} hat {ausfuehrungszeit:.4f} Sekunden benötigt.")
+        return result
+    return wrapper
+
+@zeitmesser
 def ziehe_fuenf_karten(karten):
     gezogene_zahlen = []
     aktuelle_karten = karten.copy()
