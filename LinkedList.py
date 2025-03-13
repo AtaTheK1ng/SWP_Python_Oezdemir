@@ -7,7 +7,7 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def append(self, value):
+    def add(self, value):
         new_node = Node(value)
         if not self.head:
             self.head = new_node
@@ -17,7 +17,7 @@ class LinkedList:
             current = current.next
         current.next = new_node
 
-    def display(self):
+    def ausgeben(self):
         current = self.head
         while current:
             print(current.value)
@@ -37,13 +37,13 @@ class LinkedList:
 
 
 def main():
-    ll = LinkedList()
-    ll.append(1)
-    ll.append(2)
-    ll.append(3)
-    ll.display()
-    ll.remove(2)
-    ll.display()
+    linkedList = LinkedList()
+    linkedList.add(1)
+    linkedList.add(2)
+    linkedList.add(3)
+    linkedList.ausgeben()
+    linkedList.remove(2)
+    linkedList.ausgeben()
 
 if __name__ == "__main__":
     main()
